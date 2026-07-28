@@ -12,5 +12,18 @@ const rankModal=document.createElement('div');rankModal.className='modal';rankMo
 function monthlyRank(){let now=new Date(),key=now.getFullYear()+'-'+(now.getMonth()+1),all=users(),current=localStorage.sangbadaCurrent;if(current&&all[current]){if(all[current].rankMonth!==key){all[current].rankMonth=key;all[current].rankPoints=0}all[current].rankPoints=points;localStorage.sangbadaUsers=JSON.stringify(all)}return {key,all:users()}}
 function renderRanks(){let {key,all}=monthlyRank(),list=Object.entries(all).map(([id,u])=>({id,p:+u.rankPoints||0,month:u.rankMonth})).filter(u=>u.month===key).sort((a,b)=>b.p-a.p),r=document.querySelector('#rankList');document.querySelector('#rankMonth').textContent=key.replace('-','년 ')+'월 누적 포인트 · 매월 1일 자동 초기화';r.innerHTML=list.length?'':'<p class="form-note" style="color:#557281">아직 회원가입한 사용자가 없어요.</p>';list.forEach((u,i)=>{let e=document.createElement('div');e.className='partner';e.innerHTML='<b>'+`${i+1}위 · ${u.id}`+'</b><small>'+u.p.toLocaleString()+' P</small>';r.append(e)})}
 document.querySelector('#bookModal .close').style.marginTop='12px';rankButton.onclick=()=>{renderRanks();rankModal.classList.add('open')};
+</script><script>
+/* 첫 실행은 0포인트와 빈 쿠폰함으로 시작합니다. */
+if(!localStorage.sangbadaStartReset){points=0;unlock=0;coupons=[];localStorage.sangbadaStartReset='1';save();stats();book();couponsUI()}
+</script><script>
+/* 상단 버튼 순서와 홈 펫 이름의 가독성을 보완합니다. */
+const pointActions=document.querySelector('.point-actions');pointActions.insertBefore(document.querySelector('#couponBtn'),document.querySelector('#pointsBtn'));
+const petLabel=document.querySelector('.friend-name');Object.assign(petLabel.style,{display:'inline-block',background:'#fff',padding:'7px 16px',borderRadius:'999px',boxShadow:'0 4px 12px #0c4e5a33',marginTop:'4px'});
+</script><script>
+/* 모바일에서도 쿠폰함은 포인트 버튼의 왼쪽에 유지합니다. */
+Object.assign(pointActions.style,{flexDirection:'row',alignItems:'center',flexWrap:'nowrap'});
+document.querySelector('#bookGrid').addEventListener('click',e=>{if(e.target.matches('button:not([disabled])'))setTimeout(()=>close('bookModal'),0)});
+</script><script>
+/* 현재 테스트 데이터도 새 사용자 시작 상태로 한 번 초기화합니다. */
+if(!localStorage.sangbadaPointResetV2){points=0;unlock=0;coupons=[];localStorage.sangbadaPointResetV2='1';save();stats();book();couponsUI()}
 </script></body></html>
- 
