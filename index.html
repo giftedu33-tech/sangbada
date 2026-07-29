@@ -26,4 +26,12 @@ document.querySelector('#bookGrid').addEventListener('click',e=>{if(e.target.mat
 </script><script>
 /* 현재 테스트 데이터도 새 사용자 시작 상태로 한 번 초기화합니다. */
 if(!localStorage.sangbadaPointResetV2){points=0;unlock=0;coupons=[];localStorage.sangbadaPointResetV2='1';save();stats();book();couponsUI()}
+</script><script>
+/* 회원 원형 버튼: 비로그인 아이콘 / 로그인 닉네임 첫 글자 */
+const accountCircle=document.querySelector('#accountBtn');
+function refreshAccountCircle(){const id=localStorage.sangbadaCurrent,u=id&&(users()[id]||{}),name=(u?.nickname||id||'').trim();accountCircle.textContent=name?name.charAt(0):'👤';accountCircle.title=name?name+' 회원정보':'회원가입 / 로그인'}
+document.querySelector('#authForm').addEventListener('submit',()=>setTimeout(refreshAccountCircle,0));document.querySelector('#logoutBtn').addEventListener('click',()=>setTimeout(refreshAccountCircle,0));document.querySelector('#profileView').addEventListener('submit',()=>setTimeout(refreshAccountCircle,0));
+/* 현재 테스트 화면만 신규 사용자 상태로 한 번 초기화합니다. 이후 로그인은 유지됩니다. */
+if(!localStorage.sangbadaFreshStartV3){localStorage.removeItem('sangbadaCurrent');points=0;unlock=0;coupons=[];localStorage.sangbadaFreshStartV3='1';save();stats();book();couponsUI()}
+refreshAccountCircle();
 </script></body></html>
