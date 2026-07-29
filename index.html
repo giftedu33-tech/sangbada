@@ -34,4 +34,10 @@ document.querySelector('#authForm').addEventListener('submit',()=>setTimeout(ref
 /* 현재 테스트 화면만 신규 사용자 상태로 한 번 초기화합니다. 이후 로그인은 유지됩니다. */
 if(!localStorage.sangbadaFreshStartV3){localStorage.removeItem('sangbadaCurrent');points=0;unlock=0;coupons=[];localStorage.sangbadaFreshStartV3='1';save();stats();book();couponsUI()}
 refreshAccountCircle();
+</script><script>
+/* 신규 회원용 정보와 혜택 안내 */
+const genderInput=document.querySelector('#profileGender'),genderSelect=document.createElement('select');genderSelect.id='profileGender';genderSelect.innerHTML='<option value="">성별을 선택해 주세요</option><option>여성</option><option>남성</option><option>밝히고 싶지 않음</option>';genderInput.replaceWith(genderSelect);
+partners.forEach(partner=>partner[2]=1000);partnersUI();
+const welcomeBadge=document.querySelector('.badge');welcomeBadge.innerHTML='<strong>🎉 1일차 바다 지킴이!</strong><small>신규 사용자님, 상바일에 온 것을 환영해요! 오늘부터 바다를 함께 지켜봐요.</small>';
 </script></body></html>
+ 
