@@ -71,5 +71,10 @@ document.querySelector('#authForm').addEventListener('submit',async e=>{e.preven
 onAuthStateChanged(auth,user=>{if(user){let id=localStorage.sangbadaCurrent||user.email.split('@')[0];saveCloudUser(user,id)}});
 onSnapshot(collection(db,'users'),snap=>{cloudUsers=snap.docs.map(d=>d.data()).sort((a,b)=>(b.points||0)-(a.points||0));});
 document.addEventListener('click',async e=>{if(!e.target.closest('#rankBtn'))return;e.stopImmediatePropagation();let list=document.querySelector('#rankList');list.innerHTML=cloudUsers.length?'':'<p class="form-note" style="color:#557281">아직 등록된 사용자가 없어요.</p>';cloudUsers.forEach((u,i)=>{let row=document.createElement('div');row.className='partner';row.innerHTML='<b>'+`${i+1}위 · ${u.nickname||u.id}`+'</b><small>'+Number(u.points||0).toLocaleString()+' P</small>';list.append(row)});document.querySelector('#rankModal').classList.add('open')},true);
+<script>
+/* 테스트 계정·포인트 정리와 현재 위치 지도 */
+const storedUsers=JSON.parse(localStorage.sangbadaUsers||'{}');['듀랑','상추'].forEach(id=>delete storedUsers[id]);localStorage.sangbadaUsers=JSON.stringify(storedUsers);if(['듀랑','상추'].includes(localStorage.sangbadaCurrent))localStorage.removeItem('sangbadaCurrent');
+if(!localStorage.sangbadaPointResetV5){points=0;unlock=0;coupons=[];localStorage.sangbadaPointResetV5='1';save();stats();book();couponsUI()}
+const locationCard=document.querySelector('.near');locationCard.innerHTML='<b>📍 현재 위치 지도</b><button id="mapBtn" style="margin-top:9px">내 위치 표시하기</button><div id="mapArea" style="margin-top:10px"></div>';document.querySelector('#mapBtn').onclick=()=>navigator.geolocation.getCurrentPosition(p=>{let {latitude,longitude}=p.coords;document.querySelector('#mapArea').innerHTML=`<iframe title="현재 위치" style="width:100%;height:190px;border:0;border-radius:12px" src="https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed"></iframe>`},()=>document.querySelector('#mapArea').textContent='위치 권한을 허용하면 현재 위치를 지도에서 볼 수 있어요.',{enableHighAccuracy:true});
 </script></body></html>
  
