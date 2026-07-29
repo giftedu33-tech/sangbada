@@ -76,5 +76,9 @@ document.addEventListener('click',async e=>{if(!e.target.closest('#rankBtn'))ret
 const storedUsers=JSON.parse(localStorage.sangbadaUsers||'{}');['듀랑','상추'].forEach(id=>delete storedUsers[id]);localStorage.sangbadaUsers=JSON.stringify(storedUsers);if(['듀랑','상추'].includes(localStorage.sangbadaCurrent))localStorage.removeItem('sangbadaCurrent');
 if(!localStorage.sangbadaPointResetV5){points=0;unlock=0;coupons=[];localStorage.sangbadaPointResetV5='1';save();stats();book();couponsUI()}
 const locationCard=document.querySelector('.near');locationCard.innerHTML='<b>📍 현재 위치 지도</b><button id="mapBtn" style="margin-top:9px">내 위치 표시하기</button><div id="mapArea" style="margin-top:10px"></div>';document.querySelector('#mapBtn').onclick=()=>navigator.geolocation.getCurrentPosition(p=>{let {latitude,longitude}=p.coords;document.querySelector('#mapArea').innerHTML=`<iframe title="현재 위치" style="width:100%;height:190px;border:0;border-radius:12px" src="https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed"></iframe>`},()=>document.querySelector('#mapArea').textContent='위치 권한을 허용하면 현재 위치를 지도에서 볼 수 있어요.',{enableHighAccuracy:true});
+<script>
+/* 새 회원은 항상 0P로 시작하고, 성별은 세로 선택으로 표시합니다. */
+document.querySelector('#signupTab').addEventListener('click',()=>{points=0;unlock=0;coupons=[];save();stats();book();couponsUI()});
+const verticalGenderStyle=document.createElement('style');verticalGenderStyle.textContent='.gender-choices{grid-template-columns:1fr!important}.gender-choices button{border-right:0!important;border-bottom:1px solid #e3eeee!important}.gender-choices button:last-child{border-bottom:0!important}';document.head.append(verticalGenderStyle);
 </script></body></html>
  
