@@ -147,3 +147,7 @@ const oldSignup=document.querySelector('#signupTab'),newSignup=oldSignup.cloneNo
   updateAuthScreen(false);
 })();
 </script>
+
+<script>
+document.addEventListener('submit',function(e){if(e.target.id!=='authForm')return;e.preventDefault();e.stopImmediatePropagation();const id=document.querySelector('#authId').value.trim(),pw=document.querySelector('#authPassword').value,isSignup=document.querySelector('#signupTab').classList.contains('active'),note=document.querySelector('#authNote');if(!id||!pw){note.textContent='아이디와 비밀번호를 입력해 주세요.';return}const all=JSON.parse(localStorage.sangbadaUsers||'{}');if(isSignup){if(all[id]){note.textContent='이미 사용 중인 아이디예요.';return}all[id]={pw,nickname:id};localStorage.sangbadaUsers=JSON.stringify(all);localStorage.sangbadaCurrent=id;points=0;unlock=0;coupons=[];save();stats();book();couponsUI()}else{if(!all[id]||all[id].pw!==pw){note.textContent='아이디 또는 비밀번호가 맞지 않아요.';return}localStorage.sangbadaCurrent=id}const member=all[id]||{};document.querySelector('#accountBtn').textContent=(member.nickname||id).trim().charAt(0)||'👤';account()},true);
+</script>
