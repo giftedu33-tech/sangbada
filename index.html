@@ -80,5 +80,10 @@ const locationCard=document.querySelector('.near');locationCard.innerHTML='<b>�
 /* 새 회원은 항상 0P로 시작하고, 성별은 세로 선택으로 표시합니다. */
 document.querySelector('#signupTab').addEventListener('click',()=>{points=0;unlock=0;coupons=[];save();stats();book();couponsUI()});
 const verticalGenderStyle=document.createElement('style');verticalGenderStyle.textContent='.gender-choices{grid-template-columns:1fr!important}.gender-choices button{border-right:0!important;border-bottom:1px solid #e3eeee!important}.gender-choices button:last-child{border-bottom:0!important}';document.head.append(verticalGenderStyle);
+<script>
+/* 최종 신규 사용자·랭킹 초기화 설정 */
+if(!localStorage.sangbadaRankingResetV7){localStorage.removeItem('sangbadaUsers');localStorage.removeItem('sangbadaCurrent');localStorage.sangbadaRankingResetV7='1';points=0;unlock=0;coupons=[];save();stats();book();couponsUI()}
+const finalGenderStyle=document.createElement('style');finalGenderStyle.textContent='.gender-choices{grid-template-columns:repeat(3,1fr)!important}.gender-choices button{border-bottom:0!important;border-right:1px solid #e3eeee!important}.gender-choices button:last-child{border-right:0!important}';document.head.append(finalGenderStyle);
+const finalNear=document.querySelector('.near');finalNear.innerHTML='<b>📍 현재 위치 지도</b><button id="finalMapBtn" style="margin-top:9px">내 위치 표시하기</button><div id="finalMapArea" style="margin-top:10px"></div>';document.querySelector('#finalMapBtn').onclick=()=>navigator.geolocation.getCurrentPosition(p=>{const c=p.coords;document.querySelector('#finalMapArea').innerHTML=`<iframe title="현재 위치 지도" style="width:100%;height:190px;border:0;border-radius:12px" src="https://maps.google.com/maps?q=${c.latitude},${c.longitude}&z=15&output=embed"></iframe>`},()=>document.querySelector('#finalMapArea').textContent='위치 권한을 허용하면 현재 위치를 지도에서 볼 수 있어요.',{enableHighAccuracy:true});
 </script></body></html>
  
