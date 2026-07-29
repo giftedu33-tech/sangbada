@@ -113,3 +113,37 @@ const oldSignup=document.querySelector('#signupTab'),newSignup=oldSignup.cloneNo
   updateAccountAvatar();
 })();
 </script></body></html>
+
+<script>
+(() => {
+  const resetGuestPoints = () => {
+    points = 0;
+    unlock = 0;
+    coupons = [];
+    save();
+    stats();
+    book();
+    couponsUI();
+  };
+  if (!localStorage.sangbadaCurrent) resetGuestPoints();
+  document.querySelector('#signupTab').addEventListener('click', resetGuestPoints);
+  document.querySelector('#logoutBtn').addEventListener('click', resetGuestPoints);
+
+  const title = document.querySelector('#accountTitle');
+  const idInput = document.querySelector('#authId');
+  const passwordInput = document.querySelector('#authPassword');
+  const updateAuthScreen = (isSignup) => {
+    title.textContent = isSignup ? '\uD68C\uC6D0\uAC00\uC785' : '\uB85C\uADF8\uC778';
+    passwordInput.autocomplete = isSignup ? 'new-password' : 'current-password';
+  };
+  idInput.placeholder = '\uC544\uC774\uB514\uB97C \uC785\uB825\uD558\uC138\uC694';
+  idInput.autocomplete = 'username';
+  passwordInput.placeholder = '\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD558\uC138\uC694';
+  document.querySelector('#loginTab').addEventListener('click', () => updateAuthScreen(false));
+  document.querySelector('#signupTab').addEventListener('click', () => updateAuthScreen(true));
+  document.querySelector('#accountBtn').addEventListener('click', () => {
+    if (!localStorage.sangbadaCurrent) updateAuthScreen(false);
+  });
+  updateAuthScreen(false);
+})();
+</script>
